@@ -1,25 +1,24 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.model.entity;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
+@Entity
 public class Product {
-
-    String [] productNameArray =
-            {
-
-            };
+    @PrimaryKey(autoGenerate = true)
+    public int id;
 
     String productName;
     String productUrl;
     String productImageUrl;
 
-    public Product (String companyName, String companyStock, String companyLogoUrl) {
+    public Product (String productName, String productUrl, String productImageUrl) {
         this.productName = productName;
         this.productUrl = productUrl;
         this.productImageUrl = productImageUrl;
-
     }
 
-    //Product setter and getters:
+    //Product setters and getters:
     public String getProductName() {
         return productName;
     }
@@ -41,6 +40,5 @@ public class Product {
     }
 
     public void setProductImageUrl(String productImageUrl) {
-        this.productImageUrl = productImageUrl;
     }
 }

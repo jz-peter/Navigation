@@ -1,21 +1,34 @@
 package io.turntotech.android.navigation;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.util.List;
+
+import io.turntotech.android.navigation.model.entity.Company;
 
 public class CompanyListAdapter extends ArrayAdapter<Company> {
 
+    //Create RequestQueue for Volley:
+    RequestQueue requestQ = null;
+
     public CompanyListAdapter(Context context, List<Company> values) {
         super(context, R.layout.row_layout, values);
+        requestQ = Volley.newRequestQueue(context);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
-
         Company company = getItem(position);
 
         if(convertView==null){
@@ -24,21 +37,26 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
             convertView = rowView;
         }
 
-        TextView textViewCompanyName = (TextView) convertView.findViewById(R.id.textViewCompanyName);
-        TextView textViewCompanyStock = (TextView) convertView.findViewById(R.id.textViewCompanyStock);
-        TextView textViewCompanyLogo = (TextView) convertView.findViewById(R.id.textViewCompanyLogo);
+        TextView textViewCompanyName = convertView.findViewById(R.id.txtViewCompanyName);
+        TextView textViewCompanyStock = convertView.findViewById(R.id.txtViewStockName);
+        TextView textViewStockPrice = convertView.findViewById(R.id.txtViewStockPrice);
+        final ImageView imgViewCompanyLogo = convertView.findViewById(R.id.imgViewCompanyLogo);
 
         textViewCompanyName.setText(company.getCompanyName());
         textViewCompanyStock.setText(company.getCompanyStock());
-        textViewCompanyLogo.setText(company.getCompanyLogoUrl());
+        textViewStockPrice.setText (company.getStockPrice());
 
+        // Using Volley, Retrieves an image specified by the URL, displays it in the UI.
+        ImageRequest imageRequest = new ImageRequest(company.getCompanyLogoUrl(),
+                new Response.Listener<Bitmap>() {
 
-        return convertView;
+    @Override
+    public void onResponse(Bitmap response) {
+        imgViewCompanyLogo.setImageBitmap(response);
+        }
+            }, 0, 0, null, null, null);
+
+                requestQ.add(imageRequest);
+                return convertView;
     }
-
-
-
-
-
-
 }
