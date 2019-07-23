@@ -11,14 +11,23 @@ public class Product {
     String productName;
     String productUrl;
     String productImageUrl;
+    String productPrice;
+    String companyLogoUrl;
 
-    public Product (String productName, String productUrl, String productImageUrl) {
+
+    public Product(String productName, String productImageUrl, String productPrice,String productUrl) {
         this.productName = productName;
         this.productUrl = productUrl;
         this.productImageUrl = productImageUrl;
+        this.productPrice = productPrice;
+        this.companyLogoUrl = companyLogoUrl;
     }
 
     //Product setters and getters:
+    public String getCompanyLogoUrl() {return companyLogoUrl; }
+
+    public void setCompanyLogoUrl(String companyLogoUrl) {this.companyLogoUrl = companyLogoUrl; }
+
     public String getProductName() {
         return productName;
     }
@@ -41,4 +50,8 @@ public class Product {
 
     public void setProductImageUrl(String productImageUrl) {
     }
+
+    public String getProductPrice() { return productPrice; }
+
+    public void setProductPrice(String productPrice) { this.productPrice = productPrice; }
 }

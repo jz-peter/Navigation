@@ -17,20 +17,21 @@ public interface DaoAccess {
 
     @Insert
     void insertCompany(Company company);
+    @Insert
     void insertProduct(Product product);
 
     @Update
     void updateCompany(Company company);
+    @Update
     void updateProduct(Product product);
 
     @Delete
     void deleteCompany(Company company);
+    @Delete
     void deleteProduct(Product product);
-
 
     @Query("SELECT * FROM Company")
     LiveData<List<Company>> fetchAllCompanies();
-
     @Query ("SELECT * FROM Product")
     LiveData<List<Product>> fetchAllProducts();
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="100dp">
+
+<ImageView
+    android:id="@+id/imgViewCompanyLogo"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:contentDescription="@string/logo"
+
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintDimensionRatio="1:1"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:srcCompat="@tools:sample/backgrounds/scenic[8]" />
+
+<TextView
+    android:id="@+id/txtViewCompanyName"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="100dp"
+    android:text="@string/txtViewCompanyName"
+    app:layout_constraintBottom_toTopOf="@+id/txtViewStockPrice"
+    app:layout_constraintEnd_toStartOf="@+id/txtViewStockName"
+    app:layout_constraintStart_toEndOf="@id/imgViewCompanyLogo"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/txtViewStockName"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="@string/txtViewStockName"
+    app:layout_constraintBottom_toTopOf="@+id/txtViewStockPrice"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/txtViewCompanyName"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/txtViewStockPrice"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="160dp"
+    android:text="@string/txtViewStockPrice"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toEndOf="@id/imgViewCompanyLogo"
+    app:layout_constraintTop_toBottomOf="@id/txtViewCompanyName" />
+
+
+</android.support.constraint.ConstraintLayout>

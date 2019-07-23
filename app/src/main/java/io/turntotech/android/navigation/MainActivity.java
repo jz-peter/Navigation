@@ -7,13 +7,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ListView;
 
 public class MainActivity extends AppCompatActivity {
 
-    ListView listViewProduct;
-    Button btnAddCompany;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +21,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        CompanyListFrag detailFragment = new CompanyListFrag();
-        fragmentTransaction.add(R.id.frag_container, detailFragment);
+        CompanyListFrag companyListFrag = new CompanyListFrag();
+        fragmentTransaction.add(R.id.frag_container, companyListFrag);
         fragmentTransaction.commit();
     }
+
+    //Create main menu
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    //Selected item in main menu:
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//
+//        showAddDialog();
+//        return super.onOptionsItemSelected(item);
+//    }
+
 }

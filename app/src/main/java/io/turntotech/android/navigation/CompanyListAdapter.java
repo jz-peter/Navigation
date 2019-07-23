@@ -24,7 +24,7 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
     RequestQueue requestQ = null;
 
     public CompanyListAdapter(Context context, List<Company> values) {
-        super(context, R.layout.row_layout, values);
+        super(context, R.layout.company_row_layout, values);
         requestQ = Volley.newRequestQueue(context);
     }
 
@@ -33,7 +33,7 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
 
         if(convertView==null){
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.row_layout, parent, false);
+            View rowView = inflater.inflate(R.layout.company_row_layout, parent, false);
             convertView = rowView;
         }
 
@@ -42,21 +42,25 @@ public class CompanyListAdapter extends ArrayAdapter<Company> {
         TextView textViewStockPrice = convertView.findViewById(R.id.txtViewStockPrice);
         final ImageView imgViewCompanyLogo = convertView.findViewById(R.id.imgViewCompanyLogo);
 
+
         textViewCompanyName.setText(company.getCompanyName());
         textViewCompanyStock.setText(company.getCompanyStock());
         textViewStockPrice.setText (company.getStockPrice());
 
         // Using Volley, Retrieves an image specified by the URL, displays it in the UI.
         ImageRequest imageRequest = new ImageRequest(company.getCompanyLogoUrl(),
-                new Response.Listener<Bitmap>() {
+            new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                   imgViewCompanyLogo.setImageBitmap(response);
+                }
 
-    @Override
-    public void onResponse(Bitmap response) {
-        imgViewCompanyLogo.setImageBitmap(response);
-        }
             }, 0, 0, null, null, null);
 
-                requestQ.add(imageRequest);
-                return convertView;
+        requestQ.add(imageRequest);
+        return convertView;
     }
+
+
+
 }

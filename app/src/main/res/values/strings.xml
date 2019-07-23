@@ -1,4 +1,5 @@
 <resources>
+
     <string name="app_name">Navigation</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Add">Add</string>
@@ -6,6 +7,15 @@
     <string name="txtViewCompanyName">Company Name</string>
     <string name="txtViewStockName">Stock Name</string>
     <string name="txtViewStockPrice">Stock Price</string>
-    <string name="todo">TODO</string>
+    <string name="txtViewProductName">Product Name</string>
+    <string name="txtViewProductPrice">Product Price</string>
+    <string name="editViewProductName">Product Name</string>
+    <string name="editViewProductUrl">Product Url</string>
+    <string name="editViewProductImgUrl">Product Image Url</string>
+    <string name="editViewCompanyName">Company Name</string>
+    <string name="editViewCompanyStock">Company Stock</string>
+    <string name="editViewCompanyLogoUrl">Company Logo Url</string>
+    <string name="logo">Logo</string>
+
 
 </resources>
