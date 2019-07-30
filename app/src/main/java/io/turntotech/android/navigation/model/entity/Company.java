@@ -13,14 +13,23 @@ public class Company {
     String companyLogoUrl;
     String stockPrice;
 
-    public Company(String companyLogoUrl, String companyName, String companyStock, String stockPrice) {
+
+    public Company(String companyName, String companyStock,String companyLogoUrl) {
         this.companyName = companyName;
         this.companyStock = companyStock;
         this.companyLogoUrl = companyLogoUrl;
-        this.stockPrice = stockPrice;
+        this.stockPrice = "0";
     }
 
     //Company setters and getters:
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getCompanyName() {
         return companyName;
     }

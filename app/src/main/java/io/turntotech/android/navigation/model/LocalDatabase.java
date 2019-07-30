@@ -1,4 +1,5 @@
 package io.turntotech.android.navigation.model;
+
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
@@ -18,8 +19,13 @@ public abstract class LocalDatabase extends RoomDatabase {
     public static LocalDatabase getAppDatabase(Context context) {
 
         if(db==null) {
-            db = Room.inMemoryDatabaseBuilder(context,
-                    LocalDatabase.class).build();
+            db = Room.databaseBuilder(context,
+                    LocalDatabase.class, "company-database").allowMainThreadQueries().build();
+
+//            db = Room.inMemoryDatabaseBuilder(context,
+//                    LocalDatabase.class).build();
+//
+
         }
         return db;
 

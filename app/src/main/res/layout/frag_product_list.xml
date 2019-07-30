@@ -15,7 +15,7 @@
         android:layout_height="250dp"
         android:background="@android:color/darker_gray"
         android:contentDescription="@string/logo"
-        android:scaleType="centerCrop"
+        android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/listViewProductName"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
