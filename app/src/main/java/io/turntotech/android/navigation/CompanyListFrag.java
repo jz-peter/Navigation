@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -25,6 +28,7 @@ import java.util.concurrent.Executors;
 
 import io.turntotech.android.navigation.model.LocalDatabase;
 import io.turntotech.android.navigation.model.entity.Company;
+import io.turntotech.android.navigation.model.entity.Product;
 
 
 public class CompanyListFrag extends Fragment {
@@ -34,6 +38,9 @@ public class CompanyListFrag extends Fragment {
     final List<Company> companyDataList = new ArrayList<>();
     CompanyListAdapter adapter;
     int selectedPosition;
+    long selectedId;
+    long companyId;
+
 
 
     @Override
@@ -55,10 +62,10 @@ public class CompanyListFrag extends Fragment {
                 ImageView imageView = view.findViewById(R.id.imgViewCompanyLogo);
                 Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 showProducts(position, bm);
+
             }
-
         });
-
+        companyId = listViewCompanyName.getId();
         setHasOptionsMenu(true);
         getListOfCompany();
         return view;
@@ -74,27 +81,82 @@ public class CompanyListFrag extends Fragment {
     @Override
     public void onCreateContextMenu (ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo){
         super.onCreateContextMenu(menu, v, menuInfo);
-        menu.setHeaderTitle("Please Select");
-        menu.add(0, v.getId(), 0, "Edit");
-        menu.add(0, v.getId(), 0, "Delete");
 
-//        AdapterView.AdapterContextMenuInfo info =
-//                (AdapterView.AdapterContextMenuInfo) menuInfo;
-//
-//        selectedPosition = info.position;
-//        Company company =  companyDataList.get(selectedPosition);
+        menu.setHeaderTitle("Please Select");
+        menu.add(0, 101, 0, "Edit");
+        menu.add(0, 102, 1, "Delete");
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        selectedPosition = info.position;
+        selectedId = info.id;
+        Company company =  companyDataList.get(selectedPosition);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        if (item.getTitle()== "Delete"){
+        if (item.getItemId() == 101) {
+            showCompanyEditDialog();
+        }
+        else if (item.getItemId() == 102) {
             Company company = companyDataList.get(selectedPosition);
             deleteCompanyFromDb(company);
         }
-        else if (item.getTitle()== "Edit") {
-            //Edit company method
-        }
-        return true;
+        return false;
+    }
+
+    private void showCompanyEditDialog () {
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        View customView = inflater.inflate(R.layout.frag_edit_company, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(customView);
+
+        final AlertDialog alertDialog = builder.create();
+
+        Button btn = customView.findViewById(R.id.onSaveCompany);
+        final Company company =  companyDataList.get(selectedPosition);
+        final EditText editCompanyName = customView.findViewById(R.id.editTxtCompanyName);
+        final EditText editCompanyStock = customView.findViewById(R.id.editTxtCompanyStock);
+        final EditText editCompanyLogo = customView.findViewById(R.id.editTxtCompanyLogoUrl);
+
+        editCompanyName.setText(company.getCompanyName() );
+        editCompanyStock.setText(company.getCompanyStock() );
+        editCompanyLogo.setText(company.getCompanyLogoUrl() );
+
+        // Adding onClick on the button programmatically
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String name = editCompanyName.getText().toString();
+                String stock = editCompanyStock.getText().toString();
+                String logo = editCompanyLogo.getText().toString();
+
+                company.setCompanyName( name );
+                company.setCompanyStock( stock );
+                company.setCompanyLogoUrl( logo );
+
+                updateCompanyInDb(company);
+
+                alertDialog.dismiss();
+            }
+        });
+        // Any variable used in method inside anonymous inner class needs to be final
+        alertDialog.show();
+    }
+
+    //Edit Company in database:
+    private void updateCompanyInDb (final Company company) {
+
+        //Use Executor for background task on different thread:
+        final Executor myExecutor = Executors.newSingleThreadExecutor();
+        myExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // Caused by: java.lang.IllegalStateException: Cannot access database on the main thread since it may potentially lock the UI for a long period of time.
+                LocalDB.daoAccess().updateCompany(company);
+            }
+        });
     }
 
     //Delete Company from database:
@@ -114,10 +176,14 @@ public class CompanyListFrag extends Fragment {
 
     public void showProducts ( int index, Bitmap bm){
 
+            LocalDatabase.selectedCompany =  companyDataList.get(index);
+
+
+
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             ProductListFrag productListFrag = new ProductListFrag();
             productListFrag.companyImage = bm;
-            productListFrag.selectedIndex = index;
+            productListFrag.selectedCompanyIndex = index;
             fragmentTransaction.add(R.id.frag_container, productListFrag);
             fragmentTransaction.addToBackStack("dtl");
             fragmentTransaction.commit();
@@ -141,4 +207,22 @@ public class CompanyListFrag extends Fragment {
             }
         });
     }
+
+
+//    }private void getCompanyProduct () {
+//
+//        LocalDB = LocalDatabase.getAppDatabase(getContext());
+//        LocalDB.daoAccess().fetchAllCompanyProducts(companyId).observe(CompanyListFrag.this, new Observer<List<Product>>() {
+//            @Override
+//            public void onChanged(@Nullable List<Product> companyDataList) {
+//
+//                //Clear view before fetching all names to prevent duplicates:
+//                CompanyListFrag.this.companyDataList.clear();
+//                //Add all names to view:
+//                CompanyListFrag.this.companyDataList.addAll(companyDataList);
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
+
+
 }

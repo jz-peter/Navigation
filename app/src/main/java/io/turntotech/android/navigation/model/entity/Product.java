@@ -6,20 +6,21 @@ import android.arch.persistence.room.PrimaryKey;
 @Entity
 public class Product {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    int id;
 
     String productName;
     String productUrl;
-    String productImageUrl;
+    String productImgUrl;
     String productPrice;
     String companyLogoUrl;
+    int companyId;
 
 
-    public Product(String productName, String productImageUrl, String productPrice,String productUrl) {
+    public Product(String productName, String productImgUrl,String productUrl) {
         this.productName = productName;
         this.productUrl = productUrl;
-        this.productImageUrl = productImageUrl;
-        this.productPrice = productPrice;
+        this.productImgUrl = productImgUrl;
+        this.productPrice = "0";
         this.companyLogoUrl = companyLogoUrl;
     }
 
@@ -40,18 +41,31 @@ public class Product {
         return productUrl;
     }
 
-    public void setProductUrl(String productUrl) {
-        this.productUrl = productUrl;
+    public void setProductUrl(String productUrl) { this.productUrl = productUrl; }
+
+    public String getProductImgUrl() {
+        return productImgUrl;
     }
 
-    public String getProductImageUrl() {
-        return productImageUrl;
-    }
-
-    public void setProductImageUrl(String productImageUrl) {
-    }
+    public void setProductImgUrl(String productImgUrl) { this.productImgUrl = productImgUrl; }
 
     public String getProductPrice() { return productPrice; }
 
     public void setProductPrice(String productPrice) { this.productPrice = productPrice; }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
+    }
 }

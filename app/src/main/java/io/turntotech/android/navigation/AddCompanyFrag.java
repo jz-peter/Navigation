@@ -61,7 +61,7 @@ public class AddCompanyFrag extends Fragment {
 
             InsertCompanyIntoDb(company); }
 
-        return super.onOptionsItemSelected(item);
+            return super.onOptionsItemSelected(item);
     }
 
     //Insert New Company into Local Database.

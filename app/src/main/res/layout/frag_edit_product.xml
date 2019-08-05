@@ -6,45 +6,48 @@
     android:background="#FFFFFF">
 
     <EditText
-        android:id="@+id/editTxtCompanyName"
+        android:id="@+id/editTxtProductName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTxtCompanyName"
+        android:hint="@string/editTxtProductName"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/editTxtCompanyStock"
+        app:layout_constraintBottom_toTopOf="@+id/editTxtProductUrl"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTxtCompanyStock"
+        android:id="@+id/editTxtProductUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTxtCompanyStock"
+        android:hint="@string/editTxtProductUrl"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTxtCompanyName" />
+        app:layout_constraintTop_toBottomOf="@id/editTxtProductName"
+        app:layout_constraintBottom_toTopOf="@id/editTxtProductImgUrl"
+        />
 
     <EditText
-        android:id="@+id/editTxtCompanyLogoUrl"
+        android:id="@+id/editTxtProductImgUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/editTxtCompanyLogoUrl"
+        android:hint="@string/editTxtProductImgUrl"
         android:inputType="textUri"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTxtCompanyStock" />
+        app:layout_constraintTop_toBottomOf="@id/editTxtProductUrl"
+        app:layout_constraintBottom_toTopOf="@id/onSaveProduct"/>
 
     <Button
-        android:id="@+id/onSaveCompany"
+        android:id="@+id/onSaveProduct"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/onSaveCompany"
+        android:text="@string/onSaveProduct"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTxtCompanyLogoUrl" />
+        app:layout_constraintTop_toBottomOf="@id/editTxtProductImgUrl" />
 
 </android.support.constraint.ConstraintLayout>

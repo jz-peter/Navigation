@@ -1,19 +1,9 @@
 package io.turntotech.android.navigation;
 
-import android.arch.lifecycle.Observer;
-import android.arch.persistence.room.Room;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toolbar;
-
-import java.util.List;
-
-import io.turntotech.android.navigation.model.LocalDatabase;
-import io.turntotech.android.navigation.model.entity.Company;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,8 +13,6 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         CompanyListFrag companyListFrag = new CompanyListFrag();
@@ -38,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.AddCompanyItem) {
             showAddCompanyFrag();
-        } else if (item.getItemId() == R.id.AddProductMenu){
+        } else if (item.getItemId() == R.id.AddProductItem){
             showAddProductFrag();
         }
         return super.onOptionsItemSelected(item);

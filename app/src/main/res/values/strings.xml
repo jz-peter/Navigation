@@ -12,12 +12,14 @@
     <string name="txtViewStockPrice">Stock Price</string>
     <string name="txtViewProductName">Product Name</string>
     <string name="txtViewProductPrice">Product Price</string>
-    <string name="editViewProductName">Product Name</string>
-    <string name="editViewProductUrl">Product Url</string>
-    <string name="editViewProductImgUrl">Product Image Url</string>
-    <string name="editViewCompanyName">Company Name</string>
-    <string name="editViewCompanyStock">Company Stock Symbol</string>
-    <string name="editViewCompanyLogoUrl">Company Logo Url</string>
+    <string name="editTxtProductName">Product Name</string>
+    <string name="editTxtProductUrl">Product Url</string>
+    <string name="editTxtProductImgUrl">Product Image Url</string>
+    <string name="editTxtCompanyName">Company Name</string>
+    <string name="editTxtCompanyStock">Company Stock Symbol</string>
+    <string name="editTxtCompanyLogoUrl">Company Logo Url</string>
+    <string name="onSaveCompany">Save</string>
+    <string name="onSaveProduct">Save</string>
     <string name="logo">Logo</string>
 
 

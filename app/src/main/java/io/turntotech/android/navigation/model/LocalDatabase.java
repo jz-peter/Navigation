@@ -8,13 +8,17 @@ import android.content.Context;
 import io.turntotech.android.navigation.model.entity.Company;
 import io.turntotech.android.navigation.model.entity.Product;
 
-@Database(entities = {Company.class, Product.class},version = 1)
+@Database(entities = {Company.class, Product.class},version = 2)
 public abstract class LocalDatabase extends RoomDatabase {
 
+
+    public static Company selectedCompany = null;
 
     public abstract DaoAccess daoAccess();
 
     private static LocalDatabase db = null;
+
+
 
     public static LocalDatabase getAppDatabase(Context context) {
 

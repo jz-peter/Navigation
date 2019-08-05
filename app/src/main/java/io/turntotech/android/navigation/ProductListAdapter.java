@@ -47,7 +47,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         txtViewProductPrice.setText (product.getProductPrice());
 
         // Using Volley, Retrieves an image specified by the URL, displays it in the UI.
-        ImageRequest imageRequest = new ImageRequest(product.getProductImageUrl(),
+        ImageRequest imageRequest = new ImageRequest(product.getProductImgUrl(),
 
                 new Response.Listener<Bitmap>() {
                     @Override
@@ -60,5 +60,6 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         requestQ.add(imageRequest);
         return convertView;
     }
+
 
 }
