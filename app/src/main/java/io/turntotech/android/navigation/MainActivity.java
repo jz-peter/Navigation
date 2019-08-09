@@ -4,6 +4,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+
+import io.turntotech.android.navigation.fragment.AddCompanyFrag;
+import io.turntotech.android.navigation.fragment.AddProductFrag;
+import io.turntotech.android.navigation.fragment.CompanyListFrag;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,8 +54,17 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         AddProductFrag addProductFrag = new AddProductFrag();
         fragmentTransaction.add(R.id.frag_container, addProductFrag);
-        fragmentTransaction.addToBackStack("dtl");
+        fragmentTransaction.addToBackStack("addProductFrag");
         fragmentTransaction.commit();
     }
 
+    public void onClickAddCompany(View view) {
+
+        this.showAddCompanyFrag();
+    }
+
+
+    public void onClickAddProduct(View view) {
+        this.showAddProductFrag();
+    }
 }

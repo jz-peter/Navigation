@@ -19,7 +19,6 @@ public abstract class LocalDatabase extends RoomDatabase {
     private static LocalDatabase db = null;
 
 
-
     public static LocalDatabase getAppDatabase(Context context) {
 
         if(db==null) {
@@ -28,10 +27,7 @@ public abstract class LocalDatabase extends RoomDatabase {
 
 //            db = Room.inMemoryDatabaseBuilder(context,
 //                    LocalDatabase.class).build();
-//
-
         }
         return db;
-
     }
 }

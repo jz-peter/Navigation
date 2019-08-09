@@ -1,5 +1,7 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,11 +10,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.turntotech.android.navigation.R;
 import io.turntotech.android.navigation.model.LocalDatabase;
 import io.turntotech.android.navigation.model.entity.Product;
 
@@ -22,19 +28,43 @@ public class AddProductFrag extends Fragment {
     EditText editTxtProductUrl;
     EditText editTxtProductImgUrl;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
             savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_add_product, container, false);
 
+        // Toolbar configure
+        TextView titleView = view.findViewById(R.id.txtBarTitle);
+        titleView.setText(R.string.AddProduct);
+
+        //Omitting unused buttons:
+        view.findViewById(R.id.btnBack).setVisibility(View.GONE);
+        view.findViewById(R.id.imgBtnAdd).setVisibility(View.GONE);
+
+        Button btnCancel = view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+        });
+
+        Button btnSave = view.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                AddProductToDb();
+            }
+        });
+
+
         editTxtProductName = view.findViewById(R.id.editTxtProductName);
         editTxtProductUrl = view.findViewById(R.id.editTxtProductUrl);
         editTxtProductImgUrl = view.findViewById(R.id.editTxtProductImgUrl);
 
         setHasOptionsMenu(true);
-
         return view;
     }
 
@@ -60,10 +90,42 @@ public class AddProductFrag extends Fragment {
             product.setProductImgUrl(productImgUrl);
             product.setCompanyId( LocalDatabase.selectedCompany.getId() );
 
-            InsertProductIntoDb(product); }
+            InsertProductIntoDb(product);
+            getFragmentManager()
+                    .beginTransaction()
+                    .remove(AddProductFrag.this)
+                    .commit();
 
+            Activity activity = getActivity();
+            hideKeyboard(activity);
+        }
             return super.onOptionsItemSelected(item);
     }
+
+    private void AddProductToDb () {
+
+        Product product;
+        String productName = editTxtProductName.getText().toString();
+        String productUrl = editTxtProductUrl.getText().toString();
+        String productImgUrl = editTxtProductImgUrl.getText().toString();
+
+        product = new Product(productName, productImgUrl, productUrl);
+        product.setProductName(productName);
+        product.setProductUrl(productUrl);
+        product.setProductImgUrl(productImgUrl);
+        product.setCompanyId( LocalDatabase.selectedCompany.getId() );
+
+        InsertProductIntoDb(product);
+        getFragmentManager()
+                .beginTransaction()
+                .remove(AddProductFrag.this)
+                .commit();
+
+        Activity activity = getActivity();
+        hideKeyboard(activity);
+    }
+
+
 
     //Insert New Product into Local Database.
     private void InsertProductIntoDb(final Product product) {
@@ -80,5 +142,17 @@ public class AddProductFrag extends Fragment {
                 localDB.daoAccess().insertProduct(product);
             }
         });
+    }
+
+    public static void hideKeyboard(Activity activity) {
+
+        InputMethodManager inputManager = (InputMethodManager)
+                activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        // check if no view has focus:
+        View currentFocusedView = activity.getCurrentFocus();
+        if (currentFocusedView != null) {
+            inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 }

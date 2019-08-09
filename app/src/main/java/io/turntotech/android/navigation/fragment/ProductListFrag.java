@@ -1,4 +1,4 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.graphics.Bitmap;
@@ -19,13 +19,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.turntotech.android.navigation.adapter.ProductListAdapter;
+import io.turntotech.android.navigation.R;
 import io.turntotech.android.navigation.model.LocalDatabase;
-import io.turntotech.android.navigation.model.entity.Company;
 import io.turntotech.android.navigation.model.entity.Product;
 
 public class ProductListFrag extends Fragment {
@@ -33,14 +36,13 @@ public class ProductListFrag extends Fragment {
     LocalDatabase LocalDB = null;
     int selectedPosition;
     int selectedCompanyIndex;
-    long companyId;
 
     public Bitmap companyImage;
     ListView listViewProductName;
     ImageView imgViewCompanyLogo;
+    ImageView imgViewEmptyState;
     final List<Product> productDataList = new ArrayList<>();
     ProductListAdapter adapter;
-
 
 
     @Override
@@ -49,6 +51,24 @@ public class ProductListFrag extends Fragment {
 
         View view = inflater.inflate(R.layout.frag_product_list, container, false);
 
+        // Toolbar configure
+        TextView titleView = view.findViewById(R.id.txtBarTitle);
+        titleView.setText(R.string.product);
+
+        //Omitting unused buttons:
+        view.findViewById(R.id.btnBack).setVisibility(View.GONE);
+        view.findViewById(R.id.btnCancel).setVisibility(View.GONE);
+        view.findViewById(R.id.btnSave).setVisibility(View.GONE);
+
+        ImageView btnAdd = view.findViewById(R.id.imgBtnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                openAddProduct();
+            }
+        });
+
         imgViewCompanyLogo = view.findViewById(R.id.imgViewCompanyLogo);
         imgViewCompanyLogo.setImageBitmap(companyImage);
         listViewProductName = view.findViewById(R.id.listViewProductName);
@@ -56,7 +76,7 @@ public class ProductListFrag extends Fragment {
         adapter = new ProductListAdapter( getContext(),productDataList);
         listViewProductName.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
+        imgViewEmptyState = view.findViewById(R.id.imgViewEmptyState);
 
         //Register ListView to Context Menu:
         registerForContextMenu(listViewProductName);
@@ -67,8 +87,8 @@ public class ProductListFrag extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 showDetails(productDataList.get(position).getProductUrl());
             }
-
         });
+
         setHasOptionsMenu(true);
         getListofProduct();
         return view;
@@ -175,13 +195,21 @@ public class ProductListFrag extends Fragment {
         });
     }
 
+    private void openAddProduct() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        AddProductFrag addProductFrag = new AddProductFrag();
+        fragmentTransaction.add(R.id.frag_container, addProductFrag);
+        fragmentTransaction.addToBackStack("addProductFrag");
+        fragmentTransaction.commit();
+    }
+
     public void showDetails(String productUrl) {
 
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         WebViewFrag webViewFrag = new WebViewFrag();
         webViewFrag.url = productUrl;
         fragmentTransaction.add(R.id.frag_container, webViewFrag);
-        fragmentTransaction.addToBackStack("dtl");
+        fragmentTransaction.addToBackStack("showDetails");
         fragmentTransaction.commit();
     }
 
@@ -197,6 +225,14 @@ public class ProductListFrag extends Fragment {
                 //Add all names to view:
                 ProductListFrag.this.productDataList.addAll(productDataList);
                 adapter.notifyDataSetChanged();
+
+                if(ProductListFrag.this.productDataList.size()==0){
+                    getView().findViewById(R.id.emptyProductView).setVisibility(View.VISIBLE);
+
+                }
+                else {
+                    getView().findViewById(R.id.emptyProductView).setVisibility(View.INVISIBLE);
+                }
             }
         });
     }

@@ -1,4 +1,4 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.fragment;
 
 import android.arch.lifecycle.Observer;
 import android.graphics.Bitmap;
@@ -18,23 +18,27 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.turntotech.android.navigation.MainActivity;
+import io.turntotech.android.navigation.adapter.CompanyListAdapter;
+import io.turntotech.android.navigation.R;
 import io.turntotech.android.navigation.model.LocalDatabase;
 import io.turntotech.android.navigation.model.entity.Company;
-import io.turntotech.android.navigation.model.entity.Product;
-
 
 public class CompanyListFrag extends Fragment {
 
     LocalDatabase LocalDB = null;
     ListView listViewCompanyName;
+    ImageView imgViewEmptyState;
     final List<Company> companyDataList = new ArrayList<>();
     CompanyListAdapter adapter;
     int selectedPosition;
@@ -42,15 +46,35 @@ public class CompanyListFrag extends Fragment {
     long companyId;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_company_list, container, false);
 
+        // Toolbar configure
+        TextView titleView = view.findViewById(R.id.txtBarTitle);
+        titleView.setText(R.string.app_name);
+
+        //Omitting unused buttons:
+        view.findViewById(R.id.btnBack).setVisibility(View.GONE);
+        view.findViewById(R.id.btnCancel).setVisibility(View.GONE);
+        view.findViewById(R.id.btnSave).setVisibility(View.GONE);
+
+        ImageView btnAdd = view.findViewById(R.id.imgBtnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                openAddCompany();
+            }
+        });
+
         listViewCompanyName = view.findViewById(R.id.listViewCompanyName);
+
         adapter = new CompanyListAdapter(getContext(), companyDataList);
         listViewCompanyName.setAdapter(adapter);
         adapter.notifyDataSetChanged();
+
+        imgViewEmptyState = view.findViewById(R.id.imgViewEmptyState);
 
         //Register ListView to Context Menu:
         registerForContextMenu(listViewCompanyName);
@@ -62,13 +86,21 @@ public class CompanyListFrag extends Fragment {
                 ImageView imageView = view.findViewById(R.id.imgViewCompanyLogo);
                 Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 showProducts(position, bm);
-
             }
         });
+
         companyId = listViewCompanyName.getId();
         setHasOptionsMenu(true);
         getListOfCompany();
         return view;
+    }
+
+    private void openAddCompany() {
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        AddCompanyFrag addCompanyFrag = new AddCompanyFrag();
+        fragmentTransaction.add(R.id.frag_container, addCompanyFrag);
+        fragmentTransaction.addToBackStack("dtl");
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -178,14 +210,12 @@ public class CompanyListFrag extends Fragment {
 
             LocalDatabase.selectedCompany =  companyDataList.get(index);
 
-
-
             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
             ProductListFrag productListFrag = new ProductListFrag();
             productListFrag.companyImage = bm;
             productListFrag.selectedCompanyIndex = index;
             fragmentTransaction.add(R.id.frag_container, productListFrag);
-            fragmentTransaction.addToBackStack("dtl");
+            fragmentTransaction.addToBackStack("showProducts");
             fragmentTransaction.commit();
     }
 
@@ -204,25 +234,15 @@ public class CompanyListFrag extends Fragment {
                 //Add all names to view:
                 CompanyListFrag.this.companyDataList.addAll(companyDataList);
                 adapter.notifyDataSetChanged();
+
+                if(CompanyListFrag.this.companyDataList.size()==0){
+                    getView().findViewById(R.id.emptyCompanyView).setVisibility(View.VISIBLE);
+
+                }
+                else {
+                    getView().findViewById(R.id.emptyCompanyView).setVisibility(View.INVISIBLE);
+                }
             }
         });
     }
-
-
-//    }private void getCompanyProduct () {
-//
-//        LocalDB = LocalDatabase.getAppDatabase(getContext());
-//        LocalDB.daoAccess().fetchAllCompanyProducts(companyId).observe(CompanyListFrag.this, new Observer<List<Product>>() {
-//            @Override
-//            public void onChanged(@Nullable List<Product> companyDataList) {
-//
-//                //Clear view before fetching all names to prevent duplicates:
-//                CompanyListFrag.this.companyDataList.clear();
-//                //Add all names to view:
-//                CompanyListFrag.this.companyDataList.addAll(companyDataList);
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
-
-
 }

@@ -1,12 +1,17 @@
 <resources>
 
-    <string name="app_name">Navigation</string>
+    <string name="app_name">Stock Tracker</string>
+    <string name="product">Products</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Add">Add</string>
     <string name="AddCompany">Add Company</string>
     <string name="SaveCompany">Save Company</string>
     <string name="AddProduct">Add Product</string>
     <string name="SaveProduct">Save Product</string>
+    <string name="txtViewNoCompany">You currently don\'t have any \n companies added. </string>
+    <string name="txtViewNoProduct">Add a few of this company\'s \n products to track. </string>
+    <string name="btnAddCompany">+ Add Company</string>
+    <string name="btnAddProduct">+ Add Product</string>
     <string name="txtViewCompanyName">Company Name</string>
     <string name="txtViewStockName">Stock Name</string>
     <string name="txtViewStockPrice">Stock Price</string>
@@ -20,6 +25,8 @@
     <string name="editTxtCompanyLogoUrl">Company Logo Url</string>
     <string name="onSaveCompany">Save</string>
     <string name="onSaveProduct">Save</string>
+    <string name="btnSave">Save</string>
+    <string name="btnCancel">Cancel</string>
     <string name="logo">Logo</string>
 
 

@@ -1,18 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true" >
 
+    <include layout="@layout/toolbar_common_company" />
 
     <ListView
         android:id="@+id/listViewCompanyName"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_company">
+
+    </ListView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/emptyCompanyView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite"
+        android:text="@string/txtViewNoCompany"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_company">
+
+        <ImageView
+            android:id="@+id/imgViewEmptyState"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="@id/txtViewNoCompany"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/emptystate_homeview3x" />
+
+        <TextView
+            android:id="@+id/txtViewNoCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txtViewNoCompany"
+            android:textSize="15dp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toTopOf="@id/btnAddCompany"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imgViewEmptyState" />
+
+        <Button
+            android:id="@+id/btnAddCompany"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClickAddCompany"
+            android:text="@string/btnAddCompany"
+            android:textAllCaps="false"
+            android:background="@color/colorWhite"
+            android:textColor="#00aeef"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtViewNoCompany" />
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

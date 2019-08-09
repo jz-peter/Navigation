@@ -1,4 +1,4 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -16,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
+import io.turntotech.android.navigation.R;
 import io.turntotech.android.navigation.model.entity.Company;
 import io.turntotech.android.navigation.model.entity.Product;
 

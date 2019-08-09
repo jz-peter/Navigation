@@ -1,4 +1,4 @@
-package io.turntotech.android.navigation;
+package io.turntotech.android.navigation.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,10 +8,8 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.turntotech.android.navigation.R;
 
-import io.turntotech.android.navigation.model.entity.Product;
 
 public class WebViewFrag extends Fragment {
 

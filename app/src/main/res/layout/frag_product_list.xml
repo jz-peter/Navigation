@@ -8,12 +8,14 @@
     android:clickable="true"
     android:focusable="true">
 
+    <include layout="@layout/toolbar_common_product" />
+
 
     <ImageView
         android:id="@+id/imgViewCompanyLogo"
-        android:layout_width="250dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@android:color/darker_gray"
+        android:background="#333333"
         android:contentDescription="@string/logo"
         android:scaleType="centerInside"
         app:layout_constraintBottom_toTopOf="@+id/listViewProductName"
@@ -21,7 +23,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_product"
          />
 
     <ListView
@@ -32,6 +34,49 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgViewCompanyLogo" />
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/emptyProductView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:text="@string/txtViewNoProduct"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imgViewCompanyLogo">
+
+
+                <TextView
+                    android:id="@+id/txtViewNoProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txtViewNoProduct"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toTopOf="@id/btnAddProduct"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/btnAddProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickAddProduct"
+                    android:text="@string/btnAddProduct"
+                    android:textAllCaps="false"
+                    android:background="@color/colorWhite"
+                    android:textColor="#00aeef"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtViewNoProduct" />
+
+            </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
